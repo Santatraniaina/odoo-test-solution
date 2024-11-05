@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="purchase_order_form_inherit" model="ir.ui.view">
+            <field name="name">purchase.order.form.inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_order']" position="before">
+                    <xpath expr="//field[@name='user_id']" position="move"/>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <!-- <attribute name="domain">[('','=',ref('purchase.group_purchase_manager')]</attribute> -->
+                    <attribute name="domain">[('groups_id', 'in', %(purchase.group_purchase_manager)d)]</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="to_approve_purchase_tree" model="ir.ui.view">
+            <field name="name">To approve purchase tee</field>
+            <field name="model">purchase.order</field>
+            <field name="arch" type="xml">
+                <tree string="Purchase to approve" js_class="purchase_approve_all_list_view">
+                    <header>
+                        <button
+                            name="button_cancel"
+                            string="Cancel"
+                            type="object"
+                            class="oe_highlight"
+                            confirm="Are you sure to cancel this order?"
+                        />
+                    </header>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="create_uid"/>
+                    <field name="date_order"/>
+                    <field name="date_planned"/>
+                    <field name="payment_term_id"/>
+                    <field name="amount_total" sum="Total"/>
+                    <button name="button_cancel" type="object" string="Cancel" icon="fa-times"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="purchase_to_approve_action" model="ir.actions.act_window">
+            <field name="name">To approve</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.order</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', '=', 'to approve'), ('user_id', '=', uid)]</field>
+            <field name="view_id" ref="to_approve_purchase_tree"/>
+            <field name="context">{'purchase_approve_all': True, 'create': False}</field>
+        </record>
+
+        <menuitem
+            id="purchase_to_approve_menu"
+            name="To Approve"
+            parent="purchase.menu_procurement_management"
+            action="purchase_to_approve_action"
+            sequence="20"
+            groups="purchase.group_purchase_manager"
+        />
+
+    </data>
+</odoo>
