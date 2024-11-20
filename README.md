@@ -88,40 +88,6 @@ Dans le but d’enrichir cette fonctionnalité, votre défi consiste à mettre e
 
 > ⚠️ <b><i>OWL</i></b>
 
-## Soumettre votre module
-
-- Récupération du module prédéfini
-
-```bash
-git clone git@gitlab.com:eufo.nie/odoo_test.git
-```
-
-- Assurez-vous que vous êtes bien sur la branche `main`
-
-```bash
-git branch
-```
-
-- À partir de la branche `main`, créer la branche sur laquelle vous allez travailler
-
-```bash
-git checkout -b votre_prenom
-```
-
-- Soumettre votre code
-
-```bash
-git add .
-```
-
-```bash
-git commit -m "message du commit"
-```
-
-```bash
-git push -u origin vote_prenom
-```
-
 ## Récapitulatif et répartition des points
 
 | <b>Rubriques</b> | <b>Tâches</b>                                                                                                                                                   | <b>Pts</b> |
